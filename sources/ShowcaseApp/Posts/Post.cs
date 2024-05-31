@@ -1,4 +1,4 @@
-﻿namespace ShowcaseApp;
+namespace ShowcaseApp;
 
 public class Post
 {
