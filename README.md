@@ -8,6 +8,8 @@ A way to pack minimal API into configurable modules.
 - [Description](#description)
 - [Usage](#usage)
     - [Create your module](#create-your-module)
+    - [Register your module](#register-your-module)
+    - [Customize your module](#customize-your-module)
 
 # Description
 
