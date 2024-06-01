@@ -22,7 +22,7 @@ This project aims to provide a minimal API framework that allows you to easily c
 # Usage
 
 ## Create your module
-To define a new module just create a class inheriting from `ApiModule` and provide a `Prefix` for your endpoints and a body for the `RegisterEndpoints`method.
+To define a new module just create a class inheriting from `ApiModule` and provide a `Prefix` for your endpoints and a body for the `RegisterEndpoints` method.
 
 *REMEMBER: All modules alre already prefixed with `api/` when are registered in the application*
 
@@ -50,7 +50,6 @@ public class MyModule : ApiModule
 To register all of your modules, gust call the `MapApi()` extension method in `Program.cs`.
 
 ```csharp
-
 using EngageLabs.MinimalApi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -97,7 +96,7 @@ public class MyModule : ApiModule
 }
 ```
 
-*NOTE: Conventions defined in the `Configure`method can be overridden by a single endpoint. For example you can configure your module with `RequireAuthentication`but have one or more `MapGet().AllowAnonymous()` in the `RegisterEndpoint` method*
+*NOTE: Conventions defined in the `Configure`method can be overridden by a single endpoint. For example you can configure your module with `RequireAuthentication()`but have one or more `MapGet().AllowAnonymous()` in the `RegisterEndpoint` method. See [showcase app readme](sources/ShowcaseApp/README.md) for more info*
 
 # Sample code
 See the [showcase app readme](sources/ShowcaseApp/README.md) for an overview of the showcase app with some examples
