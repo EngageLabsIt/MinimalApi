@@ -1,6 +1,6 @@
-namespace ShowcaseApp.Posts;
+namespace ShowcaseApp.Blogs;
 
-public class Post
+public class Blog
 {
     public int Id { get; set; }
 

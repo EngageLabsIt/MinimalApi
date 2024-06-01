@@ -1,5 +1,4 @@
-
-namespace ShowcaseApp;
+namespace ShowcaseApp.Posts;
 
 public class PostsRepository
 {
@@ -10,14 +9,14 @@ public class PostsRepository
         new Post { Id = 3, Title = "Third Post", Content = "This is the third post." }
     };
 
-    internal Task<Post> CreatePostAsync(Post post)
+    public Task<Post> CreatePostAsync(Post post)
     {
         post.Id = _posts.Max(p => p.Id) + 1;
         _posts.Add(post);
         return Task.FromResult(post);
     }
 
-    internal Task DeletePostAsync(int id)
+    public Task DeletePostAsync(int id)
     {
         var post = _posts.FirstOrDefault(p => p.Id == id);
         if (post is not null)
@@ -28,17 +27,17 @@ public class PostsRepository
         return Task.CompletedTask;
     }
 
-    internal Task<Post?> GetPostAsync(int id)
+    public Task<Post?> GetPostAsync(int id)
     {
         return Task.FromResult(_posts.FirstOrDefault(p => p.Id == id));
     }
 
-    internal Task<IEnumerable<Post>> GetPostsAsync()
+    public Task<IEnumerable<Post>> GetPostsAsync()
     {
         return Task.FromResult<IEnumerable<Post>>(_posts);
     }
 
-    internal Task<Post?> UpdatePostAsync(int id, Post post)
+    public Task<Post?> UpdatePostAsync(int id, Post post)
     {
         var existingPost = _posts.FirstOrDefault(p => p.Id == id);
         if (existingPost is not null)

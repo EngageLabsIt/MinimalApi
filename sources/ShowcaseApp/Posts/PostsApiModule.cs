@@ -1,6 +1,6 @@
 using EngageLabs.MinimalApi;
 
-namespace ShowcaseApp;
+namespace ShowcaseApp.Posts;
 
 public class PostsApiModule : ApiModule
 {
@@ -41,6 +41,7 @@ public class PostsApiModule : ApiModule
 
     public override void Configure(IEndpointConventionBuilder group)
     {
-        group.RequireRateLimiting(10, TimeSpan.FromMinutes(1));
+        group.WithTags("Posts");
+        group.WithDescription("Endpoints for managing posts.");
     }
 }
