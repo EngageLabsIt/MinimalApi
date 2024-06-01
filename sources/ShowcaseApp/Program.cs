@@ -34,6 +34,9 @@ var app = builder.Build();
 app.UseOpenApi();
 app.UseSwaggerUi();
 
-app.MapApi(typeof(Program).Assembly);
+app.MapApi(typeof(Program).Assembly, builder =>
+{
+    builder.CacheOutput();
+});
 
 app.Run();
