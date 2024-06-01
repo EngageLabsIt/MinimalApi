@@ -96,3 +96,6 @@ public class MyModule : ApiModule
 
 *NOTE: Conventions defined in the `Configure`method can be overridden by a single endpoint. For example you can configure your module with `RequireAuthentication`but have one or more `MapGet().AllowAnonymous()` in the `RegisterEndpoint` method*
 
+# Sample code
+See the [showcase app readme](sources/ShowcaseApp/README.md) for an overview of the showcase app with some examples
+
