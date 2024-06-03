@@ -1,0 +1,121 @@
+name: Continuous Deployment
+
+on:
+  release:
+    types: [published]
+
+env:
+  configuration: Release
+
+jobs:
+
+  validate-tag:
+    name: Validate tag
+    runs-on: ubuntu-latest
+
+    env:
+      tag: ${{ github.event.release.tag_name }}
+
+    steps:
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install semver
+        run: npm install semver
+
+      - name: Validate tag
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const semver = require('semver');
+            const tag = process.env.tag;
+            if (!semver.valid(tag)) {
+              throw new Error(`Tag '${tag}' is not a valid semver version`);
+            }
+
+      - name: Validate tag increment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const semver = require('semver');
+            const tag = process.env.tag;
+            const previousTag = await github.rest.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            }).then(response => response.data.tag_name);
+            if (!previousTag) {
+              return;
+            }
+            if (!semver.gt(tag, previousTag)) {
+              throw new Error(`Tag '${tag}' is not greater than previous tag '${previousTag}'`);
+            }
+
+  invalid-release:
+    name: Remove invalid release
+    runs-on: ubuntu-latest
+    needs: [validate-tag]
+    if: ${{ failure() }}
+
+    env:
+      tag: ${{ github.event.release.tag_name }}
+
+    steps:
+      - name: Delete release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.repos.deleteRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: context.payload.release.id
+            });
+
+      - name: Delete tag
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.git.deleteRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `tags/${process.env.tag}`
+            });
+
+  publish:
+    name: Publish to NuGet
+    runs-on: ubuntu-latest
+    needs: [validate-tag]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Restore dotnet tools
+        run: dotnet tool restore
+
+      - name: Run GitVersion
+        run: dotnet gitversion /output json /output buildserver
+
+      - name: Build
+        run: dotnet build --configuration ${{ env.configuration }} --property:Version=${{ env.GitVersion_MajorMinorPatch }} --property:AssemblyVersion=${{ env.GitVersion_AssemblySemVer }} --property:FileVersion=${{ env.GitVersion_AssemblyFileSemVer }} --property:InformationalVersion=${{ env.GitVersion_InformationalVersion }} --property:NugetVersion=${{ env.GitVersion_NuGetVersionV2 }}
+
+      - name: Create NuGet package
+        run: dotnet pack --configuration ${{ env.configuration }} --no-build --property:PackageVersion=${{ env.GitVersion_NuGetVersion }}
+
+      - name: Add NuGet source
+        run: dotnet nuget add source --username USERNAME --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/AnimaSGR-Risk/index.json"
+
+      - name: Publish NuGet package
+        run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source github
+

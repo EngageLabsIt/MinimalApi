@@ -1,0 +1,14 @@
+# Docs: https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "github-actions"
+    # `.github/workflows` is the default directory. You can use `directory: "/"`.
+    directory: "/"
+    schedule:
+      interval: "weekly"
