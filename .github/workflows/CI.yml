@@ -41,5 +41,6 @@ jobs:
       - name: Execute tests
         run: dotnet test --configuration ${{ env.configuration }} --no-build --verbosity normal
 
+        # Test NuGet package creation to avoid failures in the release pipeline
       - name: Test NuGet package creation
         run: dotnet pack --configuration ${{ env.configuration }} --no-build
