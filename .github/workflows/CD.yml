@@ -52,6 +52,7 @@ jobs:
             if (!semver.gt(tag, previousTag)) {
               throw new Error(`Tag '${tag}' is not greater than previous tag '${previousTag}'`);
             }
+            console.log(`Tag '${tag}' is greater than previous tag '${previousTag}'`);
 
   invalid-release:
     name: Remove invalid release
