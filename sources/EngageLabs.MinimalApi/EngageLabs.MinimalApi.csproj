@@ -6,8 +6,20 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup Label="Package">
+    <Authors>Engage Labs</Authors>
+    <Description>A way to pack minimal api into configurable modules</Description>
+    <PackageProjectUrl>https://github.com/EngageLabsIt/MinimalApi</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/EngageLabsIt/MinimalApi</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+      <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
