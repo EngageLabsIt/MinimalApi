@@ -45,7 +45,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               per_page: 2
-            }).then(tags => tags.data[1].name);
+            }).then(tags => tags.data[1]?.name);
             if (!previousTag) {
               return;
             }
