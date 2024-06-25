@@ -115,9 +115,6 @@ jobs:
       - name: Create NuGet package
         run: dotnet pack --configuration ${{ env.configuration }} --no-build --property:PackageVersion=${{ env.GitVersion_NuGetVersion }}
 
-      - name: Add NuGet source
-        run: dotnet nuget add source --username USERNAME --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/EngageLabsIt/index.json"
-
       - name: Publish NuGet package
-        run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source github
+        run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
 
