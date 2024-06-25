@@ -113,7 +113,7 @@ jobs:
         run: dotnet build --configuration ${{ env.configuration }} --property:Version=${{ env.GitVersion_MajorMinorPatch }} --property:AssemblyVersion=${{ env.GitVersion_AssemblySemVer }} --property:FileVersion=${{ env.GitVersion_AssemblyFileSemVer }} --property:InformationalVersion=${{ env.GitVersion_InformationalVersion }} --property:NugetVersion=${{ env.GitVersion_NuGetVersionV2 }}
 
       - name: Create NuGet package
-        run: dotnet pack --configuration ${{ env.configuration }} --no-build --property:PackageVersion=${{ env.GitVersion_NuGetVersion }}
+        run: dotnet pack --configuration ${{ env.configuration }} --no-build --property:PackageVersion=${{ env.GitVersion_NuGetVersionV2 }}
 
       - name: Publish NuGet package
         run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
