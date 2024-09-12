@@ -4,8 +4,6 @@
 
 A way to pack minimal API into configurable modules.
 
-[![CodeQL](https://github.com/EngageLabsIt/MinimalApi/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/EngageLabsIt/MinimalApi/actions/workflows/github-code-scanning/codeql)
-
 [![Continuous Integration](https://github.com/EngageLabsIt/MinimalApi/actions/workflows/CI.yml/badge.svg)](https://github.com/EngageLabsIt/MinimalApi/actions/workflows/CI.yml)
 
 [![Continuous Deployment](https://github.com/EngageLabsIt/MinimalApi/actions/workflows/CD.yml/badge.svg)](https://github.com/EngageLabsIt/MinimalApi/actions/workflows/CD.yml)
