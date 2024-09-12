@@ -46,4 +46,4 @@ jobs:
 
         # Test NuGet package creation to avoid failures in the release pipeline
       - name: Test NuGet package creation
-        run: dotnet pack ./sources/EngageLabs.MinimalApi/EngageLabs.MinimalApi.csproj --configuration ${{ env.configuration }} --no-build --property:PackageVersion=${{ env.GitVersion_FullSemVer }}
+        run: dotnet pack ./sources/EngageLabs.MinimalApi/EngageLabs.MinimalApi.csproj --configuration ${{ env.configuration }} --no-build --property:PackageVersion=${{ env.GitVersion_MajorMinorPatch }}
