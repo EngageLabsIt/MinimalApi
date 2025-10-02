@@ -3,6 +3,11 @@ name: Continuous Deployment
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'If true, the deployment will not publish the NuGet packages'
+        type: boolean
 
 env:
   configuration: Release
@@ -103,18 +108,27 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Restore dotnet tools
-        run: dotnet tool restore
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v4.1.0
+        with:
+          versionSpec: '6.x'
 
       - name: Run GitVersion
-        run: dotnet gitversion /output json /output buildserver
+        uses: gittools/actions/gitversion/execute@v4.1.0
+        with:
+          updateProjectFiles: true
 
       - name: Build
-        run: dotnet build ./sources/EngageLabs.MinimalApi/EngageLabs.MinimalApi.csproj --configuration ${{ env.configuration }} --property:Version=${{ env.GitVersion_MajorMinorPatch }} --property:AssemblyVersion=${{ env.GitVersion_AssemblySemVer }} --property:FileVersion=${{ env.GitVersion_AssemblySemFileVer }} --property:InformationalVersion=${{ env.GitVersion_InformationalVersion }}
+        run: dotnet build ./sources/EngageLabs.MinimalApi/EngageLabs.MinimalApi.csproj --configuration ${{ env.configuration }} --no-restore
 
       - name: Create NuGet package
-        run: dotnet pack ./sources/EngageLabs.MinimalApi/EngageLabs.MinimalApi.csproj --configuration ${{ env.configuration }} --no-build --property:PackageVersion=${{ env.GitVersion_MajorMinorPatch }}
+        run: dotnet pack ./sources/EngageLabs.MinimalApi/EngageLabs.MinimalApi.csproj --configuration ${{ env.configuration }} --no-build --no-restore --output ./nuget
 
       - name: Publish NuGet package
-        run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push ./nuget/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        if: ${{ github.event.inputs.dry-run == 'false' }}
+
+      - name: Publish NuGet symbols package
+        run: dotnet nuget push ./nuget/*.snupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        if: ${{ github.event.inputs.dry-run == 'false' }}
 

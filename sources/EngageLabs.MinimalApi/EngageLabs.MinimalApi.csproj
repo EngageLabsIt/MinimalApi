@@ -1,5 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -12,6 +11,12 @@
     <PackageProjectUrl>https://github.com/EngageLabsIt/MinimalApi</PackageProjectUrl>
     <RepositoryUrl>https://github.com/EngageLabsIt/MinimalApi</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IncludeSource>true</IncludeSource>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,5 +26,4 @@
   <ItemGroup>
       <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
-
 </Project>
