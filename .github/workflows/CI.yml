@@ -33,28 +33,14 @@ jobs:
         run: dotnet tool restore
 
       - name: Check coding style
-        run: |
-          dotnet format
-          --verify-no-changes
+        run: dotnet format --verify-no-changes
 
       - name: Build
-        run: |
-          dotnet build
-          --configuration ${{ env.configuration }}
-          --no-restore
+        run: dotnet build --configuration ${{ env.configuration }} --no-restore
 
       - name: Execute tests
-        run: |
-          dotnet test
-          --configuration ${{ env.configuration }}
-          --no-build
-          --no-restore
-          --verbosity normal
+        run: dotnet test --configuration ${{ env.configuration }} --no-build --no-restore
 
         # Test NuGet package creation to avoid failures in the release pipeline
       - name: Test NuGet package creation
-        run: |
-          dotnet pack ./sources/EngageLabs.MinimalApi/EngageLabs.MinimalApi.csproj
-          --configuration ${{ env.configuration }}
-          --no-build
-          --no-restore
+        run: dotnet pack ./sources/EngageLabs.MinimalApi/EngageLabs.MinimalApi.csproj --configuration ${{ env.configuration }} --no-build --no-restore
