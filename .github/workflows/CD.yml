@@ -3,6 +3,11 @@ name: Continuous Deployment
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'If true, the deployment will not publish the NuGet packages'
+        type: boolean
 
 env:
   configuration: Release
@@ -121,7 +126,9 @@ jobs:
 
       - name: Publish NuGet package
         run: dotnet nuget push ./nuget/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        if: ${{ github.event.inputs.dry-run == 'false' }}
 
       - name: Publish NuGet symbols package
         run: dotnet nuget push ./nuget/*.snupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        if: ${{ github.event.inputs.dry-run == 'false' }}
 
