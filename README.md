@@ -4,7 +4,7 @@ A way to pack minimal APIs into configurable modules.
 
 [![Continuous Integration](https://github.com/EngageLabsIt/MinimalApi/actions/workflows/CI.yml/badge.svg)](https://github.com/EngageLabsIt/MinimalApi/actions/workflows/CI.yml)
 
-[![Continuous Deployment](https://github.com/EngageLabsIt/MinimalApi/actions/workflows/CD.yml/badge.svg)](https://github.com/EngageLabsIt/MinimalApi/actions/workflows/CD.yml)
+[[![Continuous Deployment](https://github.com/EngageLabsIt/MinimalApi/actions/workflows/CD.yml/badge.svg?event=release)](https://github.com/EngageLabsIt/MinimalApi/actions/workflows/CD.yml)
 
 # Table of Contents
 - [MinimalApi](#minimalapi)
