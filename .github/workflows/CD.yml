@@ -7,6 +7,12 @@ on:
 env:
   configuration: Release
 
+inputs:
+  dry-run:
+    description: 'If true, the deployment will be a dry run and no packages will be published.'
+    required: false
+    default: 'false'
+
 jobs:
 
   validate-tag:
@@ -124,4 +130,5 @@ jobs:
 
       - name: Publish NuGet symbols package
         run: dotnet nuget push ./nuget/*.snupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        if: ${{ inputs.dry-run != 'true' }}
 
