@@ -1,8 +1,6 @@
-
-
 # MinimalApi
 
-A way to pack minimal API into configurable modules.
+A way to pack minimal APIs into configurable modules.
 
 [![Continuous Integration](https://github.com/EngageLabsIt/MinimalApi/actions/workflows/CI.yml/badge.svg)](https://github.com/EngageLabsIt/MinimalApi/actions/workflows/CI.yml)
 
@@ -22,13 +20,12 @@ A way to pack minimal API into configurable modules.
 
 This project aims to provide a minimal API framework that allows you to easily configure and organize your API endpoints into modules. It provides a simple and lightweight solution for building APIs with minimal overhead.
 
-
 # Usage
 
 ## Create your module
-To define a new module just create a class inheriting from `ApiModule` and provide a `Prefix` for your endpoints and a body for the `RegisterEndpoints` method.
+To define a new module, just create a class inheriting from `ApiModule` and provide a `Prefix` for your endpoints and a body for the `RegisterEndpoints` method.
 
-*REMEMBER: All modules alre already prefixed with `api/` when are registered in the application*
+*REMEMBER: All modules are already prefixed with `api/` when they are registered in the application.*
 
 ```csharp
 using EngageLabs.MinimalApi;
@@ -51,7 +48,7 @@ public class MyModule : ApiModule
 ```
 
 ## Register your module
-To register all of your modules, gust call the `MapApi()` extension method in `Program.cs`.
+To register all of your modules, just call the `MapApi()` extension method in `Program.cs`.
 
 ```csharp
 using EngageLabs.MinimalApi;
@@ -71,14 +68,14 @@ app.Run();
 
 The `MapApi()` extension method accepts 2 parameters:
 
-1. An assembly (or an array of assemblies) to scan to register all the modules ant the related endpoints
+1. An assembly (or an array of assemblies) to scan and register all the modules and their related endpoints.
 
-2. A configuration action to define the behavior of the entire api. This is a good spot, for example, to configure application-wide logics like authentication, rate limiting, etc.
+2. A configuration action to define the behavior of the entire API. This is a good spot, for example, to configure application-wide logic like authentication, rate limiting, etc.
 
 ## Customize your module
-If you need to define some behaviors common to all the endpoints of the module, you can override the `Configure` method of `ApiModule` base class. You will be provided with a `IEndpointConventionBuilder` to define your conventions for the module.
+If you need to define some behaviors common to all the endpoints of the module, you can override the `Configure` method of the `ApiModule` base class. You will be provided with an `IEndpointConventionBuilder` to define your conventions for the module.
 
-The `Configure` method is a good spot, for example, to configure Open Api informations like name, description, tags (also used in swagger page), etc or some behaviors that differ from the application-wide ones defined in the [global configuration](#register-your-module).
+The `Configure` method is a good spot, for example, to configure OpenAPI information like name, description, tags (also used in the Swagger page), etc., or some behaviors that differ from the application-wide ones defined in the [global configuration](#register-your-module).
 
 ```csharp
 using EngageLabs.MinimalApi;
@@ -100,7 +97,10 @@ public class MyModule : ApiModule
 }
 ```
 
-*NOTE: Conventions defined in the `Configure`method can be overridden by a single endpoint. For example you can configure your module with `RequireAuthentication()`but have one or more `MapGet().AllowAnonymous()` in the `RegisterEndpoint` method. See [showcase app readme](https://github.com/EngageLabsIt/MinimalApi/tree/main/sources/ShowcaseApp) for more info*
+*NOTE: Conventions defined in the `Configure` method can be overridden by a single endpoint. For example, you can configure your module with `RequireAuthentication()` but have one or more `MapGet().AllowAnonymous()` in the `RegisterEndpoints` method. See [showcase app readme](https://github.com/EngageLabsIt/MinimalApi/tree/main/sources/ShowcaseApp) for more info.*
+
+# Sample code
+See the [showcase app readme](https://github.com/EngageLabsIt/MinimalApi/tree/main/sources/ShowcaseApp) for an overview of the showcase app with some examples.
 
 # Sample code
 See the [showcase app readme](https://github.com/EngageLabsIt/MinimalApi/tree/main/sources/ShowcaseApp) for an overview of the showcase app with some examples
