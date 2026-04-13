@@ -28,7 +28,7 @@ jobs:
         run: npm install semver
 
       - name: Validate tag
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const semver = require('semver');
@@ -38,7 +38,7 @@ jobs:
             }
 
       - name: Validate tag increment
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const semver = require('semver');
@@ -69,7 +69,7 @@ jobs:
 
     steps:
       - name: Delete release
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.repos.deleteRelease({
@@ -79,7 +79,7 @@ jobs:
             });
 
       - name: Delete tag
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.git.deleteRef({
