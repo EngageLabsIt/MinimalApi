@@ -88,7 +88,7 @@ public class MyModule : ApiModule
     {
         // Your conventions here
         group.RequireAuthorization()
-            .RequireRateLimiting.RequireRateLimiting(10, TimeSpan.FromMinutes(1));
+            .RequireRateLimiting("fixed"); // "fixed" must be a policy name registered via AddRateLimiter
 
         group.WithName("My Module")
             .WithDescription("My awesome API module")
@@ -97,11 +97,8 @@ public class MyModule : ApiModule
 }
 ```
 
-*NOTE: Conventions defined in the `Configure` method can be overridden by a single endpoint. For example, you can configure your module with `RequireAuthentication()` but have one or more `MapGet().AllowAnonymous()` in the `RegisterEndpoints` method. See [showcase app readme](https://github.com/EngageLabsIt/MinimalApi/tree/main/sources/ShowcaseApp) for more info.*
+*NOTE: A single endpoint can opt out of a module-wide convention with `AllowAnonymous()`: if you configure your module with `RequireAuthorization()` but add `.AllowAnonymous()` to one or more `MapGet()` calls in `RegisterEndpoints`, those endpoints bypass authorization entirely, regardless of the group's configuration. This is different from stacking multiple `RequireAuthorization()` calls, which are combined with an `AND` instead of overriding each other. See [showcase app readme](https://github.com/EngageLabsIt/MinimalApi/tree/main/sources/ShowcaseApp) for more info.*
 
 # Sample code
 See the [showcase app readme](https://github.com/EngageLabsIt/MinimalApi/tree/main/sources/ShowcaseApp) for an overview of the showcase app with some examples.
-
-# Sample code
-See the [showcase app readme](https://github.com/EngageLabsIt/MinimalApi/tree/main/sources/ShowcaseApp) for an overview of the showcase app with some examples
 
